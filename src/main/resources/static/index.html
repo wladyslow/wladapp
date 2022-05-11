@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Внесение параметров судна в БД</title>
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="js/actions.js"></script>
+
+</head>
+<body>
+<form action="/finalpage.html" method="post">
+    <ul>
+        <li>
+            <label for="shipsName">Название судна:</label>
+            <input type="text" id="shipsName" name="Название судна">
+            <div id="errorLabel">Ошибка</div>
+        </li>
+        <li>
+            <label for="imoNumber">IMO номер:</label>
+            <input type="number" id="imoNumber" name="IMO номер">
+        </li>
+        <li>
+            <label for="yearOfBuilt">Год постройки:</label>
+            <input type="number" id="yearOfBuilt" name="Год постройки">
+        </li>
+        <li>
+            <label for="iceClass">Наличие документов судна:</label>
+            <input type="checkbox" id="iceClass" name="Наличие документов судна">
+        </li>
+        <li>
+            <p>Имеет ли судно ледовый класс:</p>
+            <div>
+                <input type="radio" id="yes"
+                       name="Ледовый класс" value="Да">
+                <label for="yes">Да</label>
+                <input type="radio" id="no"
+                       name="Ледовый класс" value="Нет">
+                <label for="no">Нет</label>
+            </div>
+        </li>
+        <li>
+            <label for="flag">Флаг судна:</label>
+            <p> <select class="selectpicker" data-style="btn-info" data-live-search="true" id="flag">
+                <option>Россия</option>
+                <option>Либерия</option>
+                <option>Новегия</option>
+                <option>Маршалловы острова</option>
+                <option>Финляндия</option>
+                <option>Кипр</option>
+                <option>Швеция</option>
+                <option>Португалия</option>
+                <option>Греция</option>
+            </select></p>
+        </li>
+        <li class="button">
+            <button type="submit">Сохранить данные судна</button>
+        </li>
+
+    </ul>
+</form>
+</body>
+</html>

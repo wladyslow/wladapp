@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{loadingwindows.page.title}">Список грузовых позиций</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            fillData();
+        });
+
+        function fillData() {
+            var dtToday = new Date();
+            var month = dtToday.getMonth() + 1;
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            var yearMonth = year + '-' + month;
+            $.get('/api/loadingwindows', {yearMonth: yearMonth}, function (result) {
+                    let rowsData = '';
+                    for (let i = 0; i < result.length; i++) {
+                        let loadingWindow = result[i];
+                        var actionButton = '';
+
+                        actionButton =
+                            '<td>' +
+                            '<a href="/loadingwindow/edit/' + loadingWindow.id + '"><img title="Edit" src="/images/edit.png"/></a>' +
+                            '<a data-id="loadingwindow_' + loadingWindow.id + '" href="loadingwindows.html"><img title="Delete" src="/images/delete.png"/></a>' +
+                            '</td>';
+
+                        rowsData += '<tr>' + actionButton + '<td>' + loadingWindow.id + '</td>' +
+                            '<td>' + loadingWindow.cargo.type + '</td>' + '<td>' + loadingWindow.type + '</td>'
+                            + '<td>' + loadingWindow.positionNumber + '</td>' + '<td>' + loadingWindow.positionPostfix + '</td>' +
+                            '<td>' + loadingWindow.status + '</td>' + '<td>' + loadingWindow.initDate +
+                            '</td>' + '<td>' + loadingWindow.loadDate + '</td>' + '<td>'+ '<table class="shipperQuantity">';
+                        for (let j = 0; j < loadingWindow.shipperQuantityList.length; j++) {
+                            let shipperQuantity = loadingWindow.shipperQuantityList[j];
+                            rowsData +=
+                                '<tr><td>' + shipperQuantity.shipper.name + '</td>' + '<td>' + shipperQuantity.quantity + '</td></tr>'
+                        }
+                        rowsData += '</table>'+ '</td>';
+                    }
+                    let loadingWindowDataElement = $('#loadingWindowData');
+                    loadingWindowDataElement.html(rowsData);
+
+                    $('a[data-id^=loadingWindow_]').one('click', function (event) {
+                        if (confirm('Are you sure to delete this loading window?')) {
+                            let loadingWindowId = $(this).attr('data-id').replace('loadingWindow_', '');
+                            $.ajax({
+                                url: '/api/loadingwindows/' + loadingWindowId,
+                                type: 'DELETE',
+                                success: function () {
+                                    location.href = '/loadingwindows';
+                                },
+
+                            });
+                        }
+                        event.preventDefault();
+                    });
+
+
+                }
+            );
+        }
+    </script>
+
+
+</head>
+<body>
+
+<p><strong th:text="#{loadingwindows.page.title}">Список грузовых позиций</strong></p>
+
+<div id="navigation"></div>
+<table class="loadingWindows">
+    <thead>
+    <tr>
+        <th th:text="#{loadingwindows.page.actions}">Действия</th>
+        <th th:text="#{loadingwindows.page.id}">Id</th>
+        <th th:text="#{loadingwindows.page.cargo}">Груз</th>
+        <th th:text="#{loadingwindows.page.type}">Тип позиции</th>
+        <th th:text="#{loadingwindows.page.positionNumber}">Номер позиции</th>
+        <th th:text="#{loadingwindows.page.positionPostfix}">Постфикс</th>
+        <th th:text="#{loadingwindows.page.status}">Статус позиции</th>
+        <th th:text="#{loadingwindows.page.initDate}">Дата подачи</th>
+        <th th:text="#{loadingwindows.page.loadDate}">Дата отгрузки</th>
+        <th th:text="#{loadingwindows.page.shipperQuantity}">Грузоотправитель / Количество груза</th>
+    </tr>
+    </thead>
+
+    <tbody id="loadingWindowData"/>
+</table>
+<div id="toolbar">
+    <a th:href="@{/}" href="../index.html"><img title="Back" th:src="@{/images/back.png}"/></a>
+    <a th:href="@{/loadwindows/add}" href="loadingwindow.html"><img title="Add"
+                                                                    th:src="@{/images/add.png}"/></a>
+</div>
+
+
+</div>
+<a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+<a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</body>
+</html>

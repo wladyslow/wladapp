@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text=#{welcomePage}>Main page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<p><strong th:text=#{welcomeStatement}>This is welcome page where you can navigate to another chapters. But, firstly, you should be </strong>
+    <strong> <a th:href="@{/login}" th:text=#{loginStatement}>logged into the System.</a></strong> <strong th:text=#{navigationStatement}>Choose any chapter to authorize.</strong></p>
+<menu>
+    <ul>
+        <li><a th:href="@{/cities}" th:text=#{cities.page.title} href="/cities.html">Cities</a></li>
+    </ul>
+</menu>
+<div th:with="currentUrl=(${@currentUrlWithoutParam.apply('lang')})">
+    <a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+    <a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</div>
+</body>
+</html>

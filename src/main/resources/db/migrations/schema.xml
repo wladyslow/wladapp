@@ -1,0 +1,77 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Vladislav Ismagilov" id="Create-table-city">
+        <preConditions>
+            <not>
+                <tableExists tableName="CITY"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CITY">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RUS_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENG_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="POPULATION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav Ismagilov" id="Create-table-currency_wrapper">
+        <preConditions>
+            <not>
+                <tableExists tableName="CURRENCY_WRAPPER"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CURRENCY_WRAPPER">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="DATE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Vladislav Ismagilov" id="Create-table-currency">
+        <preConditions>
+            <not>
+                <tableExists tableName="CURRENCY"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CURRENCY">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NUMCODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CHARCODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NOMINAL" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="DECIMAL(19, 4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CURRENCYWRAPPER_ID" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_CURRENCYWRAPPER_CURRENCY"
+                             references="CURRENCY_WRAPPER(ID)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

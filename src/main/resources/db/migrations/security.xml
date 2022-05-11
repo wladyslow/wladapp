@@ -1,0 +1,72 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Vladislav Ismagilov" id="Create-table-role">
+        <preConditions>
+            <not>
+                <tableExists tableName="ROLE"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ROLE">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Vladislav Ismagilov" id="Create-table-user">
+        <preConditions>
+            <not>
+                <tableExists tableName="USER"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="LOGIN" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATUS" type="INT(1)" defaultValue="1">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_USER_ROLE" references="ROLE(ID)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Vladislav Ismagilov" id="Populate-table-role-and-user">
+        <insert tableName="ROLE">
+            <column name="NAME" value="ADMIN" />
+        </insert>
+        <insert tableName="ROLE">
+            <column name="NAME" value="USERPERSON" />
+        </insert>
+
+        <insert tableName="USER">
+            <column name="LOGIN" value="admin" />
+            <column name="PASSWORD" value="$2a$10$Q.55qwv9jCjoOqpzj/Oa0.7bkKRa2u62Qc075EZL0tZ5UZg/t7fS6" />
+            <column name="NAME" value="Vladislav Ismagilov" />
+            <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLE WHERE NAME = 'ADMIN')" />
+        </insert>
+        <insert tableName="USER">
+            <column name="LOGIN" value="userperson" />
+            <column name="PASSWORD" value="$2a$10$gOqx9oUoZ3L2I7H4nwp38OGkxg.Rx8445Xe64C9y0fdurJVZlbXVe" />
+            <column name="NAME" value="Timur Popov" />
+            <column name="ROLE_ID" valueComputed="(SELECT ID FROM ROLE WHERE NAME = 'USERPERSON')" />
+        </insert>
+    </changeSet>
+</databaseChangeLog>
