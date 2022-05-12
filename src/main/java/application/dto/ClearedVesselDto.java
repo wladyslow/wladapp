@@ -17,7 +17,7 @@ public class ClearedVesselDto {
 
     private VesselDto vessel;
 
-    private LoadingWindowDto loadingWindow;
+    private String loadingWindowId;
 
     private AgentDto agent;
 

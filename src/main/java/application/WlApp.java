@@ -24,8 +24,9 @@ public class WlApp {
         lw.SetCustomYearMonth();
         System.out.println(lw);
         loadingWindowService.save(loadingWindowMapper.toDto(lw));*/
-
-        System.out.println( loadingWindowService.findAll());
+        String t = "02.05.2022";
+        String[] loadDateStringArray = t.split("\\.");
+        System.out.println(loadDateStringArray.length);
         //System.out.println(loadingWindowDtos);
         //System.out.println(loadingWindowMapper.toDtos(loadingWindowDtos));
 

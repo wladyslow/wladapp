@@ -3,11 +3,14 @@ package application.service.impl;
 import application.entities.Cargo;
 import application.dto.*;
 import application.entities.LoadingWindow;
+import application.entities.Shipper;
 import application.enums.LoadingWindowStatus;
 import application.enums.LoadingWindowType;
+import application.mapper.*;
+import application.repository.CargoRepository;
+import application.repository.ShipperRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
-import application.mapper.LoadingWindowMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,17 +29,27 @@ public class LoadingWindowServiceImpl implements LoadingWindowService {
 
     private final LoadingWindowRepository loadingWindowRepository;
     private final LoadingWindowMapper loadingWindowMapper;
+    private final CargoMapper cargoMapper;
+    private final ShipperMapper shipperMapper;
+    private final ClearedVesselMapper clearedVesselMapper;
+    private final VesselToClearMapper vesselToClearMapper;
+    private final CargoRepository cargoRepository;
+    private final ShipperRepository shipperRepository;
 
     @Override
     @Transactional
     public Long createLoadingWindow(CargoDto cargo, LoadingWindowType type,
                                     int positionNumber, String positionPostfix,
-                                    LoadingWindowStatus status, List<ShipperQuantityDto> shipperQuantities,
-                                    String initDate, String loadDate, List<LoadingOrderDto> loadingOrders,
-                                    List<VesselToClearDto> vesselToClearList, List<ClearedVesselDto> clearedVessels) {
+                                    LoadingWindowStatus status, ShipperDto shipper,
+                                    Date initDate, Date loadDate,
+                                    List<VesselToClearDto> vesselToClearList, List<ClearedVesselDto> clearedVesselList) {
         val loadingWindowDto = new LoadingWindowDto(cargo, type, positionNumber, positionPostfix,
-                status, shipperQuantities, initDate, loadDate, loadingOrders, vesselToClearList, clearedVessels);
+                status, shipper, initDate, loadDate, vesselToClearList, clearedVesselList);
         val loadingWindow = loadingWindowMapper.toEntity(loadingWindowDto);
+        Cargo cargoFromSting = cargoRepository.getById(Long.parseLong(cargo.getType()));
+        Shipper shipperFromString = shipperRepository.getById(Long.parseLong(shipper.getName()));
+        loadingWindow.setCargo(cargoFromSting);
+        loadingWindow.setShipper(shipperFromString);
         loadingWindowRepository.save(loadingWindow);
         return loadingWindow.getId();
     }
@@ -52,7 +65,6 @@ public class LoadingWindowServiceImpl implements LoadingWindowService {
     @Transactional
     public List<LoadingWindowDto> findAll() {
         return loadingWindowMapper.toDtos(loadingWindowRepository.findAll());
-        //return loadingWindowRepository.findAll();
     }
 
     @Override
@@ -87,13 +99,12 @@ public class LoadingWindowServiceImpl implements LoadingWindowService {
     @Override
     @Transactional
     public List<LoadingWindowDto> findByYearMonth(String yearMonth) {
-       // return loadingWindowMapper.toDtos(loadingWindowRepository.findByYearMonth(yearMonth));
         return loadingWindowMapper.toDtos(loadingWindowRepository.findByYearMonth(yearMonth));
     }
 
     @Override
     @Transactional
-    public List<LoadingWindowDto> findByYearMonthAndCargo(YearMonth yearMonth, Cargo cargo) {
+    public List<LoadingWindowDto> findByYearMonthAndCargo(String yearMonth, Cargo cargo) {
         return loadingWindowMapper.toDtos(loadingWindowRepository.findByYearMonthAndCargo(yearMonth, cargo));
     }
 
@@ -105,7 +116,14 @@ public class LoadingWindowServiceImpl implements LoadingWindowService {
 
     @Override
     @Transactional
-    public void update(Long id, String name) {
-
+    public void update(Long id, LoadingWindowType type,
+                       LoadingWindowStatus status,
+                       List<VesselToClearDto> vesselToClearList, List<ClearedVesselDto> clearedVesselList) {
+        loadingWindowRepository.findById(id).ifPresent(lw -> {
+            lw.setType(type);
+            lw.setStatus(status);
+            lw.setVesselToClearList(vesselToClearMapper.toEntities(vesselToClearList));
+            lw.setClearedVesselList(clearedVesselMapper.toEntities(clearedVesselList));
+        });
     }
 }

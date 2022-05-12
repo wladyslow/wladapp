@@ -15,10 +15,9 @@ public interface LoadingWindowService {
 
     Long createLoadingWindow(CargoDto cargo, LoadingWindowType type, int positionNumber,
                              String positionPostfix, LoadingWindowStatus status,
-                             List<ShipperQuantityDto> shipperQuantities, String initDate,
-                             String loadDate, List<LoadingOrderDto> loadingOrders,
-                             List<VesselToClearDto> vesselToClearList,
-                             List<ClearedVesselDto> clearedVessels);
+                             ShipperDto shipper, Date initDate,
+                             Date loadDate, List<VesselToClearDto> vesselToClearList,
+                             List<ClearedVesselDto> clearedVesselList);
 
     LoadingWindowDto save(LoadingWindowDto loadingWindowDto);
 
@@ -34,9 +33,12 @@ public interface LoadingWindowService {
 
     List<LoadingWindowDto> findByYearMonth(String yearMonth);
 
-    List<LoadingWindowDto> findByYearMonthAndCargo(YearMonth yearMonth, Cargo cargo);
+    List<LoadingWindowDto> findByYearMonthAndCargo(String yearMonth, Cargo cargo);
 
     void deleteById(Long id);
 
-    void update(Long id, String name);//TODO: develop update for Loading Window;
+    void update(Long id, LoadingWindowType type,
+                LoadingWindowStatus status,
+                List<VesselToClearDto> vesselToClearList,
+                List<ClearedVesselDto> clearedVesselList);
 }

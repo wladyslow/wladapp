@@ -24,7 +24,7 @@ public class LoadingWindow {
     @Column
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "CARGO_ID")
     private Cargo cargo;
 
@@ -40,22 +40,20 @@ public class LoadingWindow {
     @Column
     private LoadingWindowStatus status;
 
-    @OneToMany(mappedBy = "loadingWindow")
-    private List<ShipperQuantity> shipperQuantityList;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "SHIPPER_ID")
+    private Shipper shipper;
 
     @Column
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String initDate;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private Date initDate;
 
     @Column
-    //@DateTimeFormat(pattern = "yyyy-MM-dd")
-    private String loadDate;
+    @DateTimeFormat(pattern = "dd.MM.yyyy")
+    private Date loadDate;
 
     @Column
     private String yearMonth;
-
-    @OneToMany(mappedBy = "loadingWindow")
-    private List<LoadingOrder> loadingOrderList;
 
     @OneToMany(mappedBy = "loadingWindow")
     private List<VesselToClear> vesselToClearList;
@@ -63,37 +61,33 @@ public class LoadingWindow {
     @OneToMany(mappedBy = "loadingWindow")
     private List<ClearedVessel> clearedVesselList;
 
-    public LoadingWindow(Cargo cargo, LoadingWindowType type, int positionNumber,
-                         String positionPostfix, LoadingWindowStatus status,
-                         List<ShipperQuantity> shipperQuantities, String initDate,
-                         String loadDate, List<LoadingOrder> loadingOrders,
-                         List<VesselToClear> vesselToClearList, List<ClearedVessel> clearedVessels) {
+    public LoadingWindow(Cargo cargo, LoadingWindowType type,
+                         int positionNumber, String positionPostfix,
+                         LoadingWindowStatus status, Shipper shipper,
+                         Date initDate, Date loadDate,
+                         List<VesselToClear> vesselToClearList,
+                         List<ClearedVessel> clearedVesselList) {
         this.cargo = cargo;
         this.type = type;
         this.positionNumber = positionNumber;
         this.positionPostfix = positionPostfix;
         this.status = status;
-        this.shipperQuantityList = shipperQuantities;
+        this.shipper = shipper;
         this.initDate = initDate;
         this.loadDate = loadDate;
-        this.yearMonth = getCustomYearMonth();
-        this.loadingOrderList = loadingOrders;
         this.vesselToClearList = vesselToClearList;
-        this.clearedVesselList = clearedVessels;
+        this.clearedVesselList = clearedVesselList;
     }
 
-    public void SetCustomYearMonth(){
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-        //String loadDateString = simpleDateFormat.format(this.loadDate);
-        String[]loadDateStringArray = this.loadDate.split("-");
-        this.yearMonth = loadDateStringArray[0] + "-" +
+/*    public void setCustomYearMonth() {
+        String[] loadDateStringArray = this.loadDate.split("\\.");
+        this.yearMonth = loadDateStringArray[2] + "-" +
                 loadDateStringArray[1];
     }
-    public String getCustomYearMonth(){
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-       // String loadDateString = simpleDateFormat.format(this.loadDate);
-        String[]loadDateStringArray = this.loadDate.split("-");
-        return loadDateStringArray[0] + "-"+
+
+    public String getCustomYearMonth() {
+        String[] loadDateStringArray = this.loadDate.split("\\.");
+        return loadDateStringArray[2] + "-" +
                 loadDateStringArray[1];
-    }
+    }*/
 }

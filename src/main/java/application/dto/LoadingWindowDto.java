@@ -1,13 +1,16 @@
 package application.dto;
 
+import application.entities.Shipper;
 import application.enums.LoadingWindowStatus;
 import application.enums.LoadingWindowType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
 
 @Data
 @AllArgsConstructor
@@ -27,52 +30,64 @@ public class LoadingWindowDto {
 
     private LoadingWindowStatus status;
 
-    private List<ShipperQuantityDto> shipperQuantityList;
+    private ShipperDto shipper;
 
-    private String initDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date initDate;
 
-    private String loadDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date loadDate;
+
+    private String initDateString;
+
+    private String loadDateString;
 
     private String yearMonth;
-
-    private List<LoadingOrderDto> loadingOrderList;
 
     private List<VesselToClearDto> vesselToClearList;
 
     private List<ClearedVesselDto> clearedVesselList;
 
-    public LoadingWindowDto(CargoDto cargo, LoadingWindowType type, int positionNumber,
-                            String positionPostfix, LoadingWindowStatus status,
-                            List<ShipperQuantityDto> shipperQuantities, String initDate,
-                            String loadDate, List<LoadingOrderDto> loadingOrders,
+    public LoadingWindowDto(CargoDto cargo, LoadingWindowType type,
+                            int positionNumber, String positionPostfix,
+                            LoadingWindowStatus status, ShipperDto shipper,
+                            Date initDate, Date loadDate,
                             List<VesselToClearDto> vesselToClearList,
-                            List<ClearedVesselDto> clearedVessels) {
+                            List<ClearedVesselDto> clearedVesselList) {
         this.cargo = cargo;
         this.type = type;
         this.positionNumber = positionNumber;
         this.positionPostfix = positionPostfix;
         this.status = status;
-        this.shipperQuantityList = shipperQuantities;
+        this.shipper = shipper;
         this.initDate = initDate;
         this.loadDate = loadDate;
-        this.yearMonth = getCustomYearMonth();
-        this.loadingOrderList = loadingOrders;
         this.vesselToClearList = vesselToClearList;
-        this.clearedVesselList = clearedVessels;
+        this.clearedVesselList = clearedVesselList;
     }
 
-    public void SetCustomYearMonth(){
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-        //String loadDateString = simpleDateFormat.format(this.loadDate);
-        String[]loadDateStringArray = this.loadDate.split("-");
-        this.yearMonth = loadDateStringArray[0] + "-" +
+    public void setLoadDate(Date loadDate) {
+        this.loadDate = loadDate;
+        String dateString = new SimpleDateFormat("dd.MM.yyyy").format(loadDate);
+        String[] loadDateStringArray = dateString.split("\\.");
+        this.yearMonth = loadDateStringArray[2] + "-" +
                 loadDateStringArray[1];
+        this.loadDateString = loadDateStringArray[0] + "." +loadDateStringArray[1] +
+                "." + loadDateStringArray[2];
     }
-    public String getCustomYearMonth(){
-        //SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyy-MM-dd");
-        // String loadDateString = simpleDateFormat.format(this.loadDate);
-        String[]loadDateStringArray = this.loadDate.split("-");
-        return loadDateStringArray[0] + "-"+
+
+    public void setInitDate(Date initDate) {
+        this.initDate = initDate;
+        String dateString = new SimpleDateFormat("dd.MM.yyyy").format(initDate);
+        String[] initDateStringArray = dateString.split("\\.");
+        this.initDateString = initDateStringArray[0] + "." +initDateStringArray[1] +
+                "." + initDateStringArray[2];
+    }
+
+    public String getCustomYearMonth() {
+        String dateString = new SimpleDateFormat("dd.MM.yyyy").format(this.loadDate);
+        String[] loadDateStringArray = dateString.split("\\.");
+        return loadDateStringArray[2] + "-" +
                 loadDateStringArray[1];
     }
 }

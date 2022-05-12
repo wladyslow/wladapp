@@ -27,21 +27,16 @@
 
                         actionButton =
                             '<td>' +
-                            '<a href="/loadingwindow/edit/' + loadingWindow.id + '"><img title="Edit" src="/images/edit.png"/></a>' +
+                            '<a href="/loadwindows/edit/' + loadingWindow.id + '"><img title="Edit" src="/images/edit.png"/></a>' +
+                            '<a href="/loadwindows/operate/' + loadingWindow.id + '"><img title="Operate" src="/images/operate.png"/></a>' +
                             '<a data-id="loadingwindow_' + loadingWindow.id + '" href="loadingwindows.html"><img title="Delete" src="/images/delete.png"/></a>' +
                             '</td>';
 
                         rowsData += '<tr>' + actionButton + '<td>' + loadingWindow.id + '</td>' +
                             '<td>' + loadingWindow.cargo.type + '</td>' + '<td>' + loadingWindow.type + '</td>'
                             + '<td>' + loadingWindow.positionNumber + '</td>' + '<td>' + loadingWindow.positionPostfix + '</td>' +
-                            '<td>' + loadingWindow.status + '</td>' + '<td>' + loadingWindow.initDate +
-                            '</td>' + '<td>' + loadingWindow.loadDate + '</td>' + '<td>'+ '<table class="shipperQuantity">';
-                        for (let j = 0; j < loadingWindow.shipperQuantityList.length; j++) {
-                            let shipperQuantity = loadingWindow.shipperQuantityList[j];
-                            rowsData +=
-                                '<tr><td>' + shipperQuantity.shipper.name + '</td>' + '<td>' + shipperQuantity.quantity + '</td></tr>'
-                        }
-                        rowsData += '</table>'+ '</td>';
+                            '<td>' + loadingWindow.status + '</td>' + '<td>' + loadingWindow.initDateString +
+                            '</td>' + '<td>' + loadingWindow.loadDateString + '</td>' + '<td>'+ loadingWindow.shipper.name + '</td>';
                     }
                     let loadingWindowDataElement = $('#loadingWindowData');
                     loadingWindowDataElement.html(rowsData);
@@ -86,7 +81,7 @@
         <th th:text="#{loadingwindows.page.status}">Статус позиции</th>
         <th th:text="#{loadingwindows.page.initDate}">Дата подачи</th>
         <th th:text="#{loadingwindows.page.loadDate}">Дата отгрузки</th>
-        <th th:text="#{loadingwindows.page.shipperQuantity}">Грузоотправитель / Количество груза</th>
+        <th th:text="#{loadingwindows.page.shipper}">Грузоотправитель</th>
     </tr>
     </thead>
 

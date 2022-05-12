@@ -7,7 +7,9 @@ import application.dto.*;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class DateTester {
 
@@ -27,9 +29,7 @@ public class DateTester {
         System.out.println((myDateYM.equals(nowYM)));
         System.out.println((myDateYM.equals(yearMonth)));
         System.out.println("________________________");
-        LoadingWindowDto myTest = new LoadingWindowDto(new CargoDto(), LoadingWindowType.DRAFT, 5,"", LoadingWindowStatus.NOMINATE,
-                new ArrayList<ShipperQuantityDto>(),new String(), new String(),new ArrayList<LoadingOrderDto>(),new ArrayList<VesselToClearDto>(),
-                new ArrayList<ClearedVesselDto>());
-        System.out.println(myTest.getYearMonth());
+        List<LoadingWindowStatus> loadingWindowStatusList = new ArrayList<LoadingWindowStatus>(Arrays.asList(LoadingWindowStatus.values()));
+        loadingWindowStatusList.stream().forEach(c-> System.out.println(c));
     }
 }

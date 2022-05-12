@@ -24,4 +24,8 @@ public class ShipperDto {
         this.rusFullName = rusFullName;
         this.eMail = eMail;
     }
+
+    public ShipperDto(String name) {
+        this.name = name;
+    }
 }

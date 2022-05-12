@@ -16,5 +16,5 @@ public interface LoadingWindowRepository extends JpaRepository<LoadingWindow, Lo
 
     List<LoadingWindow> findByYearMonth(String yearMonth);
 
-    List<LoadingWindow> findByYearMonthAndCargo(YearMonth yearMonth, Cargo cargo);
+    List<LoadingWindow> findByYearMonthAndCargo(String yearMonth, Cargo cargo);
 }
