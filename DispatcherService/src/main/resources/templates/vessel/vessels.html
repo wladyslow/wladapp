@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{vessels.page.title}">Справочник танкеров</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/table.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            fillData();
+        });
+
+        function fillData() {
+            $.get('http://localhost:8699/api/vessels/all', function (result) {
+                    let rowsData = '';
+                    for (let i = 0; i < result.length; i++) {
+                        let vessel = result[i];
+                        var actionButton = '';
+                        actionButton =
+                            '<td>' +
+                            '<a href="/vessels/edit/' + vessel.currentVesselData.id + '"><img title="Edit" src="/images/edit.png"/></a>' +
+                            '<a href="/vessels/def/' + vessel.id + '"><img title="Deficiency" src="/images/def.png"/></a>' +
+                            '<a data-id="vessel_' + vessel.currentVesselData.id + '" href="vessel.html"><img title="Delete" src="/images/delete.png"/></a>' +
+                            '</td>';
+                        rowsData += '<tr>' + actionButton + '<td>'
+                             + vessel.name + '</td>' + '<td>' + vessel.imo + '</td>'
+                            + '<td>' + vessel.currentVesselData.dspl + '</td>' + '<td>' + vessel.currentVesselData.dwt + '</td>' +
+                            '<td>' + vessel.currentVesselData.year + '</td>' + '<td>' + vessel.currentVesselData.country.rusName +
+                            '</td>' + '<td>' + vessel.currentVesselData.shipowner.name + '</td>' + '<td>' + vessel.currentVesselData.commercialOperator.name + '</td>' +
+                            '<td>' + vessel.currentVesselData.technicalOperator.name + '</td>';
+                    }
+                    let vesselDataElement = $('#vesselData');
+                    vesselDataElement.html(rowsData);
+
+                    $('a[data-id^=loadingWindow_]').one('click', function (event) {
+                        if (confirm('Are you sure to delete this vessel')) {
+                            let loadingWindowId = $(this).attr('data-id').replace('vessel_', '');
+                            $.ajax({
+                                url: '/api/vessels/' + loadingWindowId,
+                                type: 'DELETE',
+                                success: function () {
+                                    location.href = '/vessels';
+                                },
+
+                            });
+                        }
+                        event.preventDefault();
+                    });
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+
+<p><strong th:text="#{vessels.page.title}">Список грузовых позиций</strong></p>
+
+<div id="navigation"></div>
+<table class="loadingWindows">
+    <thead>
+    <tr>
+        <th th:text="#{loadingwindows.page.actions}">Действия</th>
+        <th th:text="#{vessel.page.name}">Название</th>
+        <th th:text="#{vessel.page.imo}">ИМО</th>
+        <th th:text="#{vessel.page.dspl}">Водоизмещение</th>
+        <th th:text="#{vessel.page.dwt}">Дедвейт</th>
+        <th th:text="#{vessel.page.year}">Год</th>
+        <th th:text="#{vessel.page.flag}">Флаг</th>
+        <th th:text="#{vessel.page.shipowner}">Судовладелец</th>
+        <th th:text="#{vessel.page.comOperator}">Ком.оператор</th>
+        <th th:text="#{vessel.page.techOperator}">Тех.оператор</th>
+    </tr>
+    </thead>
+    <tbody id="vesselData"/>
+</table>
+<div id="toolbar">
+    <a th:href="@{/}" href="../index.html"><img title="Back" th:src="@{/images/back.png}"/></a>
+    <a th:href="@{/vessels/add}" href="vessels.html"><img title="Add"
+                                                                    th:src="@{/images/add.png}"/></a>
+</div>
+
+
+</div>
+<a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+<a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</body>
+</html>

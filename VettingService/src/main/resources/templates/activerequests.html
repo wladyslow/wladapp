@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{vslclr.requests}">Список запросов</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script th:src="@{/webjars/jquery/3.3.1/jquery.min.js}" src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            fillData();
+        });
+        function fillData() {
+            $.get('http://localhost:8602/dispatcher/api/clearance/active', function (result) {
+                    let rowsData = '';
+                    for (let i = 0; i < result.length; i++) {
+                        let vsl = result[i];
+                        var actionButton = '';
+                        actionButton =
+                            '<td>' +
+                            '<a href="/active/' + vsl.vesselToClearId + '"><img title="Edit" src="/images/edit.png"/></a>' +
+                            '</td>';
+                        rowsData += '<tr>' + actionButton + '<td>' + vsl.vesselToClearId + '</td>' +
+                            '<td>' + vsl.vesselName + '</td>' + '<td>' + vsl.vesselImo + '</td>' + '<td>' + vsl.initialDate + '</td>'
+                            + '<td>' + vsl.loadingDate + '</td>' + '<td>' + '<table id="vslDef">'
+                        for (let j = 0; j < vsl.vesselDeficiencyList.length; j++) {
+                            let vslD = vsl.vesselDeficiencyList[j];
+                            rowsData += '<td>' + vslD.deficiency + '</td>' + '<td>' + vslD.deficiencyDate +
+                                '</td>' + '<td>' + vslD.deficiencyStatus + '</td>' + '<td>' + vslD.comments +
+                                '</td>' + '<tr>';
+                        }
+                        rowsData += '</table> <table id="techDef">';
+                        for (let k = 0; k < vsl.techOperatorDeficiencyList.length; k++) {
+                            let vslT = vsl.techOperatorDeficiencyList[k];
+                            rowsData += '<td>' + vslT.deficiency + '</td>' + '<td>' + vslT.deficiencyDate +
+                                '</td>' + '<td>' + vslT.deficiencyStatus + '</td>' + '<td>' + vslT.comments +
+                                 '</td> <tr>';
+                        }
+                            rowsData += '</table> <table id="comDef">';
+
+                        for (let l = 0; l < vsl.comOperatorDeficiencyList.length; l++) {
+                            let vslC = vsl.comOperatorDeficiencyList[l];
+                            rowsData +='<td>' + vslC.deficiency + '</td>' + '<td>' + vslC.deficiencyDate +
+                                '</td>' + '<td>' + vslC.deficiencyStatus + '</td>' + '<td>' + vslC.comments +
+                                 '</td>' + '<tr>';
+                        }
+                        rowsData += '</table>';
+                    }
+                let requestsDataElement = $('#requestsData');
+                requestsDataElement.html(rowsData);
+                }
+            );
+        }
+    </script>
+</head>
+<body>
+
+<p><strong th:text="#{vslclr.requests}">Список запросов</strong></p>
+
+<div id="navigation"></div>
+<table class="requests">
+    <thead>
+    <tr>
+        <th th:text="#{loadingwindows.page.actions}">Действия</th>
+        <th th:text="#{vslclr.vesselToClearId}">Id</th>
+        <th th:text="#{vslclr.vesselName}">Название судна</th>
+        <th th:text="#{vslclrюvesselImo}">ИМО номер</th>
+        <th th:text="#{vslclr.initialDate}">Дата прибытия</th>
+        <th th:text="#{vslclr.loadingDate}">Дата убытия</th>
+        <th th:text="#{vslclr.deficiency}">Замечание</th>
+
+    </tr>
+    </thead>
+
+    <tbody id="requestsData"/>
+</table>
+
+</div>
+<a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+<a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</body>
+</html>

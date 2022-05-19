@@ -1,0 +1,42 @@
+spring:
+  main:
+    banner-mode: 'off'
+    web-application-type: reactive
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      routes:
+        - id: dispatcher_route
+          uri: lb://DispatcherService
+          predicates:
+            - Path=/dispatcher/**
+          filters:
+            - StripPrefix=1
+        - id: vetting_route
+          uri: lb://VettingService
+          predicates:
+            - Path=/vetting/**
+          filters:
+            - StripPrefix=1
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  port: 8602
+
+management:
+  endpoints.web.exposure.include: 'gateway, prometheus, metrics, info, health, env'
+  metrics.export.prometheus.enabled: true
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+logging:
+  level:
+    root: DEBUG

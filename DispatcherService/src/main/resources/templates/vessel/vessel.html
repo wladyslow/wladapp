@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${vessel.id == null}? #{addVessel} : #{editVessel}">Создать/редактировать
+        судно</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<form id="add-form" th:action="@{/vessels/save}" th:if="${vessel.id == null}" method="post"
+      action="vessel.html"
+      th:object="${vessel}">
+    <p><strong th:text="#{addVessel}">Создать судно</strong></p>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input th:field="*{id}" placeholder="id (*)" class="form-control" hidden/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="name" th:text="#{vessel.page.name}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input id='name' th:field="*{name}" th:placeholder="#{vessel.page.name}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="imo" th:text="#{vessel.page.imo}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="imo" th:field="*{imo}" th:placeholder="#{vessel.page.imo}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="dwt" th:text="#{vessel.page.dwt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="dwt" th:field="*{dwt}" th:placeholder="#{vessel.page.dwt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="dspl" th:text="#{vessel.page.dspl}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="dspl" th:field="*{dspl}" th:placeholder="#{vessel.page.dspl}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="loa" th:text="#{vessel.page.loa}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="loa" th:field="*{loa}" th:placeholder="#{vessel.page.loa}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="beam" th:text="#{vessel.page.beam}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="beam" th:field="*{beam}" th:placeholder="#{vessel.page.beam}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="height" th:text="#{vessel.page.height}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="height" th:field="*{height}" th:placeholder="#{vessel.page.height}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="gt" th:text="#{vessel.page.gt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="gt" th:field="*{gt}" th:placeholder="#{vessel.page.gt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="rgt" th:text="#{vessel.page.rgt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="rgt" th:field="*{rgt}" th:placeholder="#{vessel.page.rgt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="swbt" th:text="#{vessel.page.swbt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="swbt" th:field="*{swbt}" th:placeholder="#{vessel.page.swbt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="year" th:text="#{vessel.page.year}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="year" th:field="*{year}" th:placeholder="#{vessel.page.year}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="eMail" th:text="#{vessel.page.eMail}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="email" id='eMail' th:field="*{eMail}" th:placeholder="#{vessel.page.eMail}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="iceClass" th:text="#{vessel.page.iceClass}"></label>
+        <select id="iceClass" th:field="*{iceClass}">
+            <option th:each="iceCl: ${iceClasses}"
+                    th:value="${iceCl}" th:text="${iceCl}">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="country" th:text="#{vessel.page.flag}"></label>
+        <select id="country" th:field="*{country}">
+            <option th:each="c: ${countries}"
+                    th:value="${c.id}" th:text="${c.rusName}">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="shipowner" th:text="#{vessel.page.shipowner}"></label>
+        <select id="shipowner" th:field="*{shipowner}">
+            <option th:each="sh: ${shipowners}"
+                    th:value="${sh.id}" th:text="${sh.name}">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="comOperator" th:text="#{vessel.page.comOperator}"></label>
+        <select id="comOperator" th:field="*{commercialOperator}">
+            <option th:each="com: ${commercialOperators}"
+                    th:value="${com.id}" th:text="${com.name}">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="technicalOperator" th:text="#{vessel.page.techOperator}"></label>
+        <select id="technicalOperator" th:field="*{technicalOperator}">
+            <option th:each="tech: ${technicalOperators}"
+                    th:value="${tech.id}" th:text="${tech.name}">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <a th:href="@{/vessels}" href="vessels.html"><img alt="Back"
+                                                                     th:src="@{/images/back.png}"/></a>
+        <button type="submit"><img alt="Save" th:src="@{/images/save.png}"/></button>
+    </div>
+</form>
+<form id="edit-form" th:action="@{/vessels/save(id=${vessel.id})}" th:unless="${vessel.id == null}"
+      method="post"
+      action="vessel.html" th:object="${vessel}">
+    <p><strong th:text="#{editVessel}">Редактировать судно</strong></p>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input th:field="*{id}" placeholder="id (*)" class="form-control" hidden/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="name" th:text="#{vessel.page.name}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input id='name' th:field="*{name}" th:placeholder="#{vessel.page.name}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="imo" th:text="#{vessel.page.imo}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="imo" th:field="*{imo}" th:placeholder="#{vessel.page.imo}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="dwt" th:text="#{vessel.page.dwt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="dwt" th:field="*{dwt}" th:placeholder="#{vessel.page.dwt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="dspl" th:text="#{vessel.page.dspl}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="dspl" th:field="*{dspl}" th:placeholder="#{vessel.page.dspl}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="loa" th:text="#{vessel.page.loa}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="loa" th:field="*{loa}" th:placeholder="#{vessel.page.loa}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="beam" th:text="#{vessel.page.beam}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="beam" th:field="*{beam}" th:placeholder="#{vessel.page.beam}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="height" th:text="#{vessel.page.height}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" step="any" id="height" th:field="*{height}" th:placeholder="#{vessel.page.height}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="gt" th:text="#{vessel.page.gt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="gt" th:field="*{gt}" th:placeholder="#{vessel.page.gt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="rgt" th:text="#{vessel.page.rgt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="rgt" th:field="*{rgt}" th:placeholder="#{vessel.page.rgt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="swbt" th:text="#{vessel.page.swbt}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="swbt" th:field="*{swbt}" th:placeholder="#{vessel.page.swbt}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="year" th:text="#{vessel.page.year}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="number" id="year" th:field="*{year}" th:placeholder="#{vessel.page.year}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="eMail" th:text="#{vessel.page.eMail}"></label>
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input type="email" id='eMail' th:field="*{eMail}" th:placeholder="#{vessel.page.eMail}"
+               class="form-control"/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="iceClass" th:text="#{vessel.page.iceClass}"></label>
+        <select id="iceClass" name="iceClass" th:with="iceClass=*{iceClass}">
+            <option th:each="iceCl: ${iceClasses}"
+                    th:value="${iceCl}" th:text="${iceCl}"
+                    th:selected="(${iceCl} == *{iceClass})">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="country" th:text="#{vessel.page.flag}"></label>
+        <select id="country" name="country" th:with="country=*{country}">
+            <option th:each="c: ${countries}"
+                    th:value="${c.id}" th:text="${c.rusName}"
+                    th:selected="(${c.id} == *{country.id})">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="shipowner" th:text="#{vessel.page.shipowner}"></label>
+        <select id="shipowner" name="shipowner" th:with="shipowner=*{shipowner}">
+            <option th:each="sh: ${shipowners}"
+                    th:value="${sh.id}" th:text="${sh.name}"
+                    th:selected="(${sh.id} == *{shipowner.id})">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="commercialOperator" th:text="#{vessel.page.comOperator}"></label>
+        <select id="commercialOperator" name="commercialOperator" th:with="commercialOperator=*{commercialOperator}">
+            <option th:each="com: ${commercialOperators}"
+                    th:value="${com.id}" th:text="${com.name}"
+                    th:selected="(${com.id} == *{commercialOperator.id})">
+            </option>
+        </select>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <label for="technicalOperator" th:text="#{vessel.page.techOperator}"></label>
+        <select id="technicalOperator" name="technicalOperator" th:with="technicalOperator=*{technicalOperator}">
+            <option th:each="tech: ${technicalOperators}"
+                    th:value="${tech.id}" th:text="${tech.name}"
+                    th:selected="(${tech.id} == *{technicalOperator.id})">
+            </option>
+        </select>
+    </div>
+
+    <div class="row">
+        <a th:href="@{/vessels}" href="vessels.html"><img alt="Back" th:src="@{/images/back.png}"/></a>
+        <button type="submit"><img alt="Save" th:src="@{/images/save.png}"/></button>
+    </div>
+</form>
+<div th:with="currentUrl=(${@currentUrlWithoutParam.apply('lang')})">
+    <a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+    <a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</div>
+</body>
+</html>

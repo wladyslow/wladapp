@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="#{vslclr.showDeficiency}">Показать замечания</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var addVesDef = $('.add_vsl_def');
+            var addComDef = $('.add_com_def');
+            var addTechDef = $('.add_tech_def');
+            $(addVesDef).click(function () {
+                if (confirm('Are you sure to add deficiency of the vessel?')) {
+                    var vesselWrapperId = $("[name='id']").val();
+                    location.href = 'http://localhost:8699/vessels/def/add/' + vesselWrapperId;
+                }
+            });
+            $(addComDef).click(function () {
+                if (confirm('Are you sure to add deficiency of the commercial operator?')) {
+                    var comOpId = $("[name='currentVesselData.commercialOperator.id']").val();
+                    location.href = 'http://localhost:8699/vessels/comdef/add/' + comOpId;
+                }
+            });
+            $(addTechDef).click(function () {
+                if (confirm('Are you sure to add deficiency of the technical operator?')) {
+                    var techOpId = $("[name='currentVesselData.technicalOperator.id']").val();
+                    location.href = 'http://localhost:8699/vessels/techdef/add/' + techOpId;
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+<form id="reply-form" th:action="@{/active}" method="post"
+      action="active.html"
+      th:object="${vesselWrapper}">
+    <p><strong th:text="#{vslclr.showDeficiency}">Просмотр замечаний</strong></p>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input th:field="*{id}" placeholder="id (*)" class="form-control" hidden/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input th:field="*{currentVesselData.commercialOperator.id}" placeholder="id (*)" class="form-control" hidden/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <input th:field="*{currentVesselData.technicalOperator.id}" placeholder="id (*)" class="form-control" hidden/>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <tr th:text="#{vessel.page.name}"></tr>
+        <td th:text="*{name}"></td>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group">
+        <tr th:text="#{vessel.page.imo}"></tr>
+        <td th:text="*{imo}"></td>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group" name="vesselDef">
+        <tr th:text="#{vslclr.vesdeficiency}"></tr>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(vesselWrapper.vesselDeficiencies)}">
+        <tr th:each="vslDef: ${vesselWrapper.vesselDeficiencies}">
+            <td th:text="${vslDef.deficiency}"/>
+            <td th:text="${vslDef.deficiencyDate}"/>
+            <td th:text="${vslDef.deficiencyStatus}"/>
+            <td th:text="${vslDef.comments}"/>
+            <td>
+                <a th:href="@{'/vesseldef/edit/' + ${vslDef.id}}" th:text="#{def.edit}"/>
+        </tr>
+    </div>
+
+    <div>
+        <a href="javascript:void(0);" class="add_vsl_def" title="add_vsl_def"><img src="/images/add.png"/></a>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group" name="comDef">
+        <tr th:text="#{vslclr.comdeficiency}"></tr>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(vesselWrapper.currentVesselData.commercialOperator.comOperatorDeficiencies)}">
+        <tr th:each="comDef: ${vesselWrapper.currentVesselData.commercialOperator.comOperatorDeficiencies}">
+            <td th:text="${comDef.deficiency}"/>
+            <td th:text="${comDef.deficiencyDate}"/>
+            <td th:text="${comDef.deficiencyStatus}"/>
+            <td th:text="${comDef.comments}"/>
+            <td>
+                <a th:href="@{'/vesselcomdef/edit/' + ${comDef.id}}" th:text="#{def.edit}"/>
+        </tr>
+    </div>
+
+    <div>
+        <a href="javascript:void(0);" class="add_com_def" title="add_com_def"><img src="/images/add.png"/></a>
+    </div>
+
+    <div style="margin-bottom: 25px" class="input-group" name="comDef">
+        <tr th:text="#{vslclr.techdeficiency}"></tr>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(vesselWrapper.currentVesselData.technicalOperator.techOperatorDeficiencies)}">
+        <tr th:each="techDef: ${vesselWrapper.currentVesselData.technicalOperator.techOperatorDeficiencies}">
+            <td th:text="${techDef.deficiency}"/>
+            <td th:text="${techDef.deficiencyDate}"/>
+            <td th:text="${techDef.deficiencyStatus}"/>
+            <td th:text="${techDef.comments}"/>
+            <td>
+                <a th:href="@{'/vesseltechdef/edit/' + ${techDef.id}}" th:text="#{def.edit}"/>
+        </tr>
+    </div>
+
+    <div>
+        <a href="javascript:void(0);" class="add_tech_def" title="add_tech_def"><img src="/images/add.png"/></a>
+    </div>
+
+</form>
+<div class="row">
+    <a th:href="@{/vessels}" href="vessels.html"><img alt="Back" th:src="@{/images/back.png}"/></a>
+</div>
+
+<div th:with="currentUrl=(${@currentUrlWithoutParam.apply('lang')})">
+    <a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+    <a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</div>
+</body>
+</html>
