@@ -44,9 +44,9 @@ public class LoadingWindowPageController {
         List<ShipperDto> shippers = shipperService.findAll();
         List<CargoDto> cargoDtos = cargoService.findAll();
         List<LoadingWindowStatus> loadingWindowStatusList =
-                new ArrayList<LoadingWindowStatus>(Arrays.asList(LoadingWindowStatus.values()));
+                new ArrayList<>(Arrays.asList(LoadingWindowStatus.values()));
         List<LoadingWindowType> loadingWindowTypeList =
-                new ArrayList<LoadingWindowType>(Arrays.asList(LoadingWindowType.values()));
+                new ArrayList<>(Arrays.asList(LoadingWindowType.values()));
         model.addAttribute("loadingWindow", loadingWindowDto);
         model.addAttribute("allShipperDtoList", shippers);
         model.addAttribute("cargos", cargoDtos);
@@ -62,9 +62,9 @@ public class LoadingWindowPageController {
         List<ShipperDto> shippers = shipperService.findAll();
         List<CargoDto> cargoDtos = cargoService.findAll();
         List<LoadingWindowStatus> loadingWindowStatusList =
-                new ArrayList<LoadingWindowStatus>(Arrays.asList(LoadingWindowStatus.values()));
+                new ArrayList<>(Arrays.asList(LoadingWindowStatus.values()));
         List<LoadingWindowType> loadingWindowTypeList =
-                new ArrayList<LoadingWindowType>(Arrays.asList(LoadingWindowType.values()));
+                new ArrayList<>(Arrays.asList(LoadingWindowType.values()));
         model.addAttribute("loadingWindow", loadingWindowDto);
         model.addAttribute("allShipperDtoList", shippers);
         model.addAttribute("cargos", cargoDtos);

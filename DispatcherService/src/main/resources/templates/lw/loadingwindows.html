@@ -35,13 +35,13 @@
                             '<td>' + loadingWindow.cargo.type + '</td>' + '<td>' + loadingWindow.type + '</td>'
                             + '<td>' + loadingWindow.positionNumber + ' ' + loadingWindow.positionPostfix + '</td>' +
                             '<td>' + loadingWindow.status + '</td>' + '<td>' + loadingWindow.initDateString +
-                            '</td>' + '<td>' + loadingWindow.loadDateString + '</td>' + '<td>'+ loadingWindow.shipper.name + '</td>'
+                            '</td>' + '<td>' + loadingWindow.loadDateString + '</td>' + '<td>' + loadingWindow.shipper.name + '</td>'
 
-                        + '<td>' + '<table id="vslToClear">';
+                            + '<td>' + '<table id="vslToClear">';
                         for (let j = 0; j < loadingWindow.vesselToClearList.length; j++) {
                             let vsl = loadingWindow.vesselToClearList[j];
-                            rowsData += '<td>' + '<a href="/vesseltoclear/operate/' + vsl.id +'" class="vsl_button">' + vsl.vesselWrapper.name +'</a>' + '</td>'
-                                + '<td>'+ vsl.vettingPart + '</td>' + '<td>' + vsl.vettingStatus  +'</td>' + '<td>'+ vsl.status + '<td>' + vsl.technicalPart +'</td>' +
+                            rowsData += '<td>' + '<a href="/vesseltoclear/operate/' + vsl.id + '" class="vsl_button">' + vsl.vesselWrapper.name + '</a>' + '</td>'
+                                + '<td>' + vsl.vettingPart + '</td>' + '<td>' + vsl.vettingStatus + '</td>' + '<td>' + vsl.status + '<td>' + vsl.technicalPart + '</td>' +
                                 '<td>' + vsl.accepted + '</td>' + '<tr>';
                         }
                         rowsData += '</table>';
@@ -58,7 +58,6 @@
                                 success: function () {
                                     location.href = '/loadwindows';
                                 },
-
                             });
                         }
                         event.preventDefault();
@@ -93,12 +92,9 @@
 </table>
 <div id="toolbar">
     <a th:href="@{/}" href="../index.html"><img title="Back" th:src="@{/images/back.png}"/></a>
-    <a th:href="@{/loadwindows/add}" href="loadingwindow.html"><img title="Add"
-                                                                    th:src="@{/images/add.png}"/></a>
+    <a th:href="@{/loadwindows/add}" href="loadingwindow.html"><img title="Add" th:src="@{/images/add.png}"/></a>
 </div>
 
-
-</div>
 <a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
 <a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
 </body>

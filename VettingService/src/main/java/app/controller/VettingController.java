@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @Validated
@@ -22,9 +21,19 @@ public class VettingController {
 
     private final VettingService vettingService;
 
+    @GetMapping("/")
+    public String showMainPage() {
+        return "index";
+    }
+
     @GetMapping("/active")
     public String showActive() {
         return "activerequests";
+    }
+
+    @GetMapping("/checked")
+    public String showChecked() {
+        return "checkedrequests";
     }
 
     @GetMapping("/active/{id}")

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title th:text="#{vslclr.requests}">Список запросов</title>
+    <title th:text="#{vslclr.checkedrequests}">Список запросов</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -12,7 +12,7 @@
             fillData();
         });
         function fillData() {
-            $.get('http://localhost:8602/dispatcher/api/clearance/active', function (result) {
+            $.get('http://localhost:8602/dispatcher/api/clearance/checked', function (result) {
                     let rowsData = '';
                     for (let i = 0; i < result.length; i++) {
                         let vsl = result[i];
@@ -56,7 +56,7 @@
 </head>
 <body>
 
-<p><strong th:text="#{vslclr.requests}">Список запросов</strong></p>
+<p><strong th:text="#{vslclr.checkedrequests}">Список запросов</strong></p>
 
 <div id="navigation"></div>
 <table class="requests">
@@ -75,6 +75,7 @@
 
     <tbody id="requestsData"/>
 </table>
+
 <div class="row">
     <a th:href="@{/}" href="index.html"><img alt="Back" th:src="@{/images/back.png}"/></a>
 </div>

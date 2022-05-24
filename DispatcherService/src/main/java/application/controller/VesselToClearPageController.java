@@ -1,6 +1,5 @@
 package application.controller;
 
-import application.dto.LoadingWindowDto;
 import application.dto.VesselToClearDto;
 import application.service.VesselToClearService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +22,5 @@ public class VesselToClearPageController {
                 .orElseThrow(() -> new IllegalArgumentException("Request doesn't exist"));
         model.addAttribute("vesselToClearDto", vesselToClearDto);
         return "vesseltoclear/editvesselrequest";
-
     }
 }

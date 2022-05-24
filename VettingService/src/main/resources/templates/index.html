@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text=#{welcomePage}>Main page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+
+<p><strong th:text=#{welcomeStatement}>This is welcome page where you can navigate to another chapters. </strong>
+<strong th:text=#{navigationStatement}>Choose any chapter.</strong></p>
+<menu>
+    <ul>
+        <li><a th:href="@{/active}" th:text=#{page.active} href="/activerequsdts.html">Active</a></li>
+        <li><a th:href="@{/checked}" th:text=#{page.checked} href="/cheeckedrequsdts.html">Checked</a></li>
+    </ul>
+</menu>
+<div th:with="currentUrl=(${@currentUrlWithoutParam.apply('lang')})">
+    <a th:href="@{${currentUrl}(lang=en)}" th:text="#{en}">en</a>
+    <a th:href="@{${currentUrl}(lang=ru)}" th:text="#{ru}">ru</a>
+</div>
+</body>
+</html>

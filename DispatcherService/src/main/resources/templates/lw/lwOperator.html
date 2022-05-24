@@ -11,18 +11,10 @@
             fillData();
             let index = 1;
         });
-
         function fillData() {
             $('#addVessel').on('click', function (e) {
                 e.preventDefault();
                 if (confirm('Are you sure to add vessel for clearance?')) {
-                    /* var name = $("#partName").val();
-                      var quantity = $("#quantity").val();
-                      var invoice = $("#invoiceNumber").val();
-                      var price = $("#price").val();
-                      var supplier = $("#supplier").val();
-                      var brand = $("#brand").val();*!/*/
-
                     $(
                         '<div style="margin-bottom: 25px" class="input-group">' +
                         '<label for="Выбор судна' + index + '" th:text="#{loadingwindows.page.cargo}"></label>' +
@@ -34,9 +26,6 @@
                     ).appendTo('#adderVessel');
                     index++;
                 }
-                /*});*/
-                /* }*/
-
             })
         }
     </script>
@@ -76,7 +65,6 @@
     </script>
 </head>
 <body>
-
 
 <form id="operate-form" th:action="@{/loadwindows/update(id=${loadingWindow.id})}"
       th:unless="${loadingWindow.id == null}"
